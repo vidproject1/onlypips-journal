@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +14,7 @@ const formSchema = z.object({
   actualProfitLoss: z.number(),
   hitTarget: z.boolean(),
   notes: z.string().optional(),
+  strategy: z.string().max(255),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -45,7 +45,8 @@ const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       hitTarget: false,
-      notes: ''
+      notes: '',
+      strategy: ''
     }
   });
 
@@ -69,7 +70,8 @@ const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
           growth_plan_id: planId,
           actual_profit_loss: data.actualProfitLoss,
           hit_target: data.hitTarget,
-          notes: data.notes || null
+          notes: data.notes || null,
+          strategy: data.strategy
         });
 
       if (tradeError) throw tradeError;
@@ -142,6 +144,20 @@ const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
           id="notes"
           placeholder="Add any notes about this trade..."
           {...register('notes')}
+        />
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="strategy" className="block text-sm font-medium mb-1">
+          Strategy
+        </label>
+        <input
+          id="strategy"
+          type="text"
+          maxLength={255}
+          placeholder="e.g., Breakout Retest v2"
+          {...register("strategy")}
+          className="input-class" // use your styling here
         />
       </div>
 

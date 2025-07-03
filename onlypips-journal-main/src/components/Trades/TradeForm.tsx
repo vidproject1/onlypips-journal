@@ -167,18 +167,14 @@ const TradeForm: React.FC<TradeFormProps> = ({ onSubmit, userId }) => {
           
           <div className="space-y-2">
             <Label htmlFor="strategy">Strategy</Label>
-            <Select value={selectedStrategy} onValueChange={setSelectedStrategy} required>
-              <SelectTrigger id="strategy">
-                <SelectValue placeholder="Select strategy" />
-              </SelectTrigger>
-              <SelectContent>
-                {strategies.map((strategy) => (
-                  <SelectItem key={strategy.id} value={strategy.id}>
-                    {strategy.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Input
+              id="strategy"
+              type="text"
+              maxLength={255}
+              placeholder="e.g., Breakout Retest v2"
+              value={selectedStrategy}
+              onChange={(e) => setSelectedStrategy(e.target.value)}
+            />
           </div>
           
           <div className="grid grid-cols-2 gap-4">

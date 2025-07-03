@@ -85,4 +85,7 @@ INSERT INTO affiliate_info (
 
 -- 7. Index for better performance
 CREATE INDEX IF NOT EXISTS idx_affiliate_info_active ON affiliate_info(active);
-CREATE INDEX IF NOT EXISTS idx_users_has_supported ON users(has_supported); 
+CREATE INDEX IF NOT EXISTS idx_users_has_supported ON users(has_supported);
+
+-- Add strategy column to trades table
+ALTER TABLE trades ADD COLUMN IF NOT EXISTS strategy TEXT; 

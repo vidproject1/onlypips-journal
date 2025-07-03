@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import TradeForm from '@/components/Trades/TradeForm';
 import TradeList from '@/components/Trades/TradeList';
@@ -55,7 +54,8 @@ const Trades: React.FC<TradesProps> = ({ userId }) => {
         is_break_even: tradeData.is_break_even || false,
         notes: tradeData.notes || null,
         trade_type: tradeData.trade_type,
-        account_id: selectedAccountId
+        account_id: selectedAccountId,
+        strategy: tradeData.strategy || null,
       };
       // Insert new trade into Supabase
       const { data, error } = await supabase
@@ -150,7 +150,7 @@ const Trades: React.FC<TradesProps> = ({ userId }) => {
           )}
         </TabsContent>
         <TabsContent value="add">
-          <TradeForm onSubmit={handleSubmitTrade} />
+          <TradeForm onSubmit={handleSubmitTrade} userId={userId} />
         </TabsContent>
       </Tabs>
     </div>
