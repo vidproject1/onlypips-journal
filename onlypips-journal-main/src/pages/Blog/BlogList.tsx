@@ -84,7 +84,7 @@ const BlogList = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.length > 0 ? (
               filteredPosts.map((post) => (
-                <Link key={post.id} to={`/blog/${post.slug}`} className="group h-full">
+                <Link key={post.id} to={`/blog/${encodeURIComponent(post.slug)}`} className="group h-full">
                   <Card className="h-full flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/20 bg-card/50 backdrop-blur-sm border-border/50">
                     <div className="aspect-video w-full overflow-hidden">
                       <img 

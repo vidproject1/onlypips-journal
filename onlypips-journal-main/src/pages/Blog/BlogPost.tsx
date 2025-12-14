@@ -19,16 +19,19 @@ const BlogPost = () => {
     const fetchPost = async () => {
       if (!slug) return;
       
+      console.log('Fetching post for slug:', slug);
       setIsLoading(true);
       try {
         const { data, error } = await supabase
           .from('blog_posts')
           .select('*')
           .eq('slug', slug)
-          .single();
+          .maybeSingle();
 
         if (error) {
           console.error('Error fetching blog post:', error);
+        } else if (!data) {
+          console.warn('No blog post found for slug:', slug);
         } else {
           setPost(data);
         }
@@ -53,7 +56,22 @@ const BlogPost = () => {
   }
 
   if (!post) {
-    return <Navigate to="/blog" replace />;
+    return (
+      <PublicLayout>
+        <div className="container mx-auto px-4 py-16 text-center">
+          <h1 className="text-3xl font-bold mb-4">Post Not Found</h1>
+          <p className="mb-8 text-muted-foreground">The blog post you are looking for does not exist or has been moved.</p>
+          <div className="flex justify-center gap-4">
+            <Link to="/blog">
+              <Button variant="default">Back to Blog</Button>
+            </Link>
+          </div>
+          <div className="mt-8 text-xs text-muted-foreground">
+            Debug: Slug "{slug}" not found in database.
+          </div>
+        </div>
+      </PublicLayout>
+    );
   }
 
   return (
