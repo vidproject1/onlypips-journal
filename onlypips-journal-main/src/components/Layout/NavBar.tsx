@@ -39,7 +39,7 @@ const NavLink = ({ to, icon: Icon, children, className }: NavLinkProps) => {
     <Link
       to={to}
       className={`text-sm font-medium transition-colors hover:text-primary flex items-center gap-2 ${
-        isActive ? "text-primary" : ""
+        isActive ? "text-primary" : "text-muted-foreground"
       } ${className}`}
     >
       <Icon className="h-4 w-4" />
@@ -54,7 +54,7 @@ const NavBar: React.FC<NavBarProps> = ({ onLogout, userId }) => {
       <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center">
           <Link to="/" className="flex items-center font-bold text-lg mr-8">
-            <TrendingUp className="mr-2 h-5 w-5 text-primary" />
+            <img src="/OP logo.png" alt="OnlyPips Logo" className="mr-2 h-8 w-auto" />
             <span className="hidden md:inline">OnlyPips Journal</span>
             <span className="md:hidden">OnlyPips</span>
           </Link>

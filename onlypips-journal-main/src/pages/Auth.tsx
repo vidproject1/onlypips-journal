@@ -76,6 +76,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
       <div className="mb-8 text-center animate-fade-in">
+        <img src="/OP logo.png" alt="OnlyPips Logo" className="h-20 w-auto mx-auto mb-6" />
         <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-muted/30 border border-border/10 text-foreground mb-6">
           <TrendingUp className="mr-2 h-3.5 w-3.5" />
           <span className="text-xs font-medium tracking-wide uppercase">Track. Analyze. Improve.</span>

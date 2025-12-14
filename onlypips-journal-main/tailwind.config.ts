@@ -55,7 +55,7 @@ export default {
         },
         profit: "#10b981",
         loss: "#ef4444",
-        neutral: "#94a3b8",
+        neutral: "#737373",
       },
       borderRadius: {
         lg: "var(--radius)",
