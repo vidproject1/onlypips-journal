@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -101,175 +100,187 @@ const TradeForm: React.FC<TradeFormProps> = ({ onSubmit, userId }) => {
   };
 
   return (
-    <Card className="glass-card animate-fade-in w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold tracking-tight">
-          Log New Trade
-        </CardTitle>
-      </CardHeader>
-      <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="pair">Currency Pair</Label>
-            <Select value={pair} onValueChange={setPair} required disabled={pairsLoading}>
-              <SelectTrigger id="pair">
-                <SelectValue placeholder="Select currency pair" />
-              </SelectTrigger>
-              <SelectContent>
-                {pairs.map((currencyPair) => (
-                  <SelectItem 
-                    key={currencyPair.symbol} 
-                    value={currencyPair.symbol}
-                  >
-                    {currencyPair.display_name || currencyPair.symbol}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Direction</Label>
-            <ToggleGroup 
-              type="single" 
-              value={direction} 
-              onValueChange={(value) => value && setDirection(value as 'BUY' | 'SELL')}
-              className="justify-start"
-            >
-              <ToggleGroupItem value="BUY" aria-label="Buy position">
-                <ArrowUpCircle className="mr-1 h-4 w-4 text-green-500" />
-                Buy
-              </ToggleGroupItem>
-              <ToggleGroupItem value="SELL" aria-label="Sell position">
-                <ArrowDownCircle className="mr-1 h-4 w-4 text-red-500" />
-                Sell
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Trade Type</Label>
-            <RadioGroup 
-              value={tradeType} 
-              onValueChange={(value) => setTradeType(value as 'REAL' | 'DEMO')}
-              className="flex items-center space-x-4"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="REAL" id="real" />
-                <Label htmlFor="real">Real</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="DEMO" id="demo" />
-                <Label htmlFor="demo">Demo</Label>
-              </div>
-            </RadioGroup>
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="strategy">Strategy</Label>
-            <Input
-              id="strategy"
-              type="text"
-              maxLength={255}
-              placeholder="e.g., Breakout Retest v2"
-              value={selectedStrategy}
-              onChange={(e) => setSelectedStrategy(e.target.value)}
-            />
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
+    <div className="w-full max-w-2xl mx-auto bg-background p-8 rounded-3xl border border-border/10 animate-fade-in">
+      <div className="mb-8 border-b border-border/40 pb-6">
+        <h2 className="text-xl font-light tracking-tight">Log New Trade</h2>
+        <p className="text-sm text-muted-foreground mt-1">Record the details of your trade execution</p>
+      </div>
+      
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="entryPrice">Entry Price (Optional)</Label>
-              <Input
-                id="entryPrice"
-                placeholder="0.00"
-                type="number"
-                step="any"
-                value={entryPrice}
-                onChange={(e) => setEntryPrice(e.target.value)}
-              />
+              <Label htmlFor="pair" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Currency Pair</Label>
+              <Select value={pair} onValueChange={setPair} required disabled={pairsLoading}>
+                <SelectTrigger id="pair" className="border-border/20 focus:ring-0 bg-muted/30 h-10 rounded-xl">
+                  <SelectValue placeholder="Select pair" />
+                </SelectTrigger>
+                <SelectContent>
+                  {pairs.map((currencyPair) => (
+                    <SelectItem 
+                      key={currencyPair.symbol} 
+                      value={currencyPair.symbol}
+                    >
+                      {currencyPair.display_name || currencyPair.symbol}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="exitPrice">Exit Price (Optional)</Label>
-              <Input
-                id="exitPrice"
-                placeholder="0.00"
-                type="number"
-                step="any"
-                value={exitPrice}
-                onChange={(e) => setExitPrice(e.target.value)}
-              />
-            </div>
-          </div>
 
-          <div className="space-y-2">
-            <div className="flex items-center space-x-2 mb-2">
-              <Checkbox 
-                id="isBreakEven" 
-                checked={isBreakEven}
-                onCheckedChange={(checked) => setIsBreakEven(checked as boolean)}
-              />
-              <Label htmlFor="isBreakEven" className="cursor-pointer">Did this trade hit break-even?</Label>
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Direction</Label>
+              <ToggleGroup 
+                type="single" 
+                value={direction} 
+                onValueChange={(value) => value && setDirection(value as 'BUY' | 'SELL')}
+                className="justify-start w-full"
+              >
+                <ToggleGroupItem value="BUY" aria-label="Buy position" className="flex-1 border-border/20 data-[state=on]:bg-emerald-500/10 data-[state=on]:text-emerald-500">
+                  <ArrowUpCircle className="mr-2 h-4 w-4" />
+                  Buy
+                </ToggleGroupItem>
+                <ToggleGroupItem value="SELL" aria-label="Sell position" className="flex-1 border-border/20 data-[state=on]:bg-rose-500/10 data-[state=on]:text-rose-500">
+                  <ArrowDownCircle className="mr-2 h-4 w-4" />
+                  Sell
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Type</Label>
+              <RadioGroup 
+                value={tradeType} 
+                onValueChange={(value) => setTradeType(value as 'REAL' | 'DEMO')}
+                className="flex items-center space-x-6 pt-1"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="REAL" id="real" />
+                  <Label htmlFor="real" className="font-light cursor-pointer">Real Account</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="DEMO" id="demo" />
+                  <Label htmlFor="demo" className="font-light cursor-pointer">Demo Account</Label>
+                </div>
+              </RadioGroup>
             </div>
             
+            <div className="space-y-2">
+              <Label htmlFor="strategy" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Strategy</Label>
+              <Input
+                id="strategy"
+                type="text"
+                maxLength={255}
+                placeholder="e.g., Breakout Retest v2"
+                value={selectedStrategy}
+                onChange={(e) => setSelectedStrategy(e.target.value)}
+                className="border-border/20 focus-visible:ring-0 bg-muted/30 h-10 rounded-xl"
+              />
+            </div>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="entryPrice" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Entry Price</Label>
+                <Input
+                  id="entryPrice"
+                  placeholder="0.00"
+                  type="number"
+                  step="any"
+                  value={entryPrice}
+                  onChange={(e) => setEntryPrice(e.target.value)}
+                  className="border-border/20 focus-visible:ring-0 bg-muted/30 h-10 rounded-xl"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="exitPrice" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Exit Price</Label>
+                <Input
+                  id="exitPrice"
+                  placeholder="0.00"
+                  type="number"
+                  step="any"
+                  value={exitPrice}
+                  onChange={(e) => setExitPrice(e.target.value)}
+                  className="border-border/20 focus-visible:ring-0 bg-muted/30 h-10 rounded-lg"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-4 border-t border-border/10">
+            <div className="flex items-center space-x-2 mb-4">
+              <Switch
+                id="breakEven"
+                checked={isBreakEven}
+                onCheckedChange={setIsBreakEven}
+              />
+              <Label htmlFor="breakEven" className="font-light cursor-pointer">Mark as Break Even</Label>
+            </div>
+
             {!isBreakEven && (
               <div className="space-y-2">
-                <Label htmlFor="profitLoss">Profit / Loss (in your currency)</Label>
+                <Label htmlFor="profit" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Profit / Loss</Label>
                 <Input
-                  id="profitLoss"
-                  placeholder="-10.50 or 25.75"
+                  id="profit"
+                  placeholder="0.00"
                   type="number"
                   step="any"
                   value={profitLoss}
                   onChange={(e) => setProfitLoss(e.target.value)}
+                  className={`border-border/20 focus-visible:ring-0 bg-muted/30 h-10 rounded-lg ${
+                    parseFloat(profitLoss) > 0 ? 'text-emerald-500 font-medium' : 
+                    parseFloat(profitLoss) < 0 ? 'text-rose-500 font-medium' : ''
+                  }`}
                   required={!isBreakEven}
                 />
-                <p className="text-xs text-muted-foreground">Enter the exact amount made or lost on this trade.</p>
               </div>
             )}
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="notes">Notes</Label>
-            <Textarea
-              id="notes"
-              placeholder="What was your trading rationale? What did you learn?"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              rows={3}
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="screenshot">Screenshot</Label>
-            <div className="flex items-center justify-center border border-dashed rounded-md p-4 cursor-pointer hover:bg-secondary/50 transition-colors">
-              <Input
-                id="screenshot"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileChange}
+            
+            <div className="space-y-2">
+              <Label htmlFor="notes" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Notes</Label>
+              <Textarea
+                id="notes"
+                placeholder="Add trade analysis notes..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="min-h-[100px] border-border/20 focus-visible:ring-0 bg-muted/30 rounded-lg resize-none"
               />
-              <Label htmlFor="screenshot" className="cursor-pointer flex flex-col items-center">
-                <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">
-                  {screenshot ? screenshot.name : "Upload chart screenshot"}
-                </span>
-              </Label>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="screenshot" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Screenshot</Label>
+              <div className="relative">
+                <Input
+                  id="screenshot"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => document.getElementById('screenshot')?.click()}
+                  className="w-full border-border/20 border-dashed hover:bg-muted/30 h-10 font-normal text-muted-foreground"
+                >
+                  <Upload className="mr-2 h-4 w-4" />
+                  {screenshot ? screenshot.name : "Upload Chart Image"}
+                </Button>
+              </div>
             </div>
           </div>
-        </CardContent>
-        <CardFooter>
-          <Button 
-            type="submit" 
-            className="w-full" 
-            disabled={isLoading}
-          >
-            Log Trade
-          </Button>
-        </CardFooter>
+        </div>
+
+        <Button 
+          type="submit" 
+          className="w-full rounded-full h-11 text-base font-medium" 
+          disabled={isLoading}
+        >
+          {isLoading ? "Recording Trade..." : "Log Trade"}
+        </Button>
       </form>
-    </Card>
+    </div>
   );
 };
 

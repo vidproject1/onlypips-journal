@@ -50,12 +50,12 @@ const MonthlyRecap: React.FC<MonthlyRecapProps> = ({ trades }) => {
   const totalPnL = selectedMonthTrades.reduce((sum, trade) => sum + Number(trade.profit_loss), 0);
 
   const StatBox = ({ label, value, subValue, highlight }: { label: string, value: string, subValue?: string, highlight?: boolean }) => (
-    <div className="flex flex-col">
-      <span className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{label}</span>
-      <span className={`text-xl font-light tracking-tight ${highlight ? (Number(value.replace(/[^0-9.-]/g, '')) >= 0 ? 'text-emerald-500' : 'text-rose-500') : 'text-foreground'}`}>
+    <div className="flex flex-col p-6 rounded-3xl bg-background border border-border/10">
+      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">{label}</span>
+      <span className={`text-2xl font-light tracking-tight ${highlight ? (Number(value.replace(/[^0-9.-]/g, '')) >= 0 ? 'text-emerald-500' : 'text-rose-500') : 'text-foreground'}`}>
         {value}
       </span>
-      {subValue && <span className="text-xs text-muted-foreground mt-1">{subValue}</span>}
+      {subValue && <span className="text-xs text-muted-foreground mt-1 font-light">{subValue}</span>}
     </div>
   );
 

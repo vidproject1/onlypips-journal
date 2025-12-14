@@ -33,21 +33,21 @@ const AuthForm: React.FC<AuthFormProps> = ({ onLogin, onRegister, isLoading = fa
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <Card className="glass-card animate-fade-in">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold tracking-tight">
-            {isLoginView ? 'Login' : 'Create an account'}
-          </CardTitle>
-          <CardDescription>
+      <div className="bg-background rounded-3xl border border-border/10 p-8 shadow-sm animate-fade-in">
+        <div className="space-y-1 mb-8 text-center">
+          <h2 className="text-2xl font-light tracking-tight">
+            {isLoginView ? 'Welcome Back' : 'Join OnlyPips'}
+          </h2>
+          <p className="text-sm text-muted-foreground font-light">
             {isLoginView
               ? 'Enter your credentials to access your account'
               : 'Enter your information to create an account'}
-          </CardDescription>
-        </CardHeader>
+          </p>
+        </div>
         <form onSubmit={handleSubmit}>
-          <CardContent className="space-y-4">
+          <div className="space-y-4 mb-8">
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
+              <label htmlFor="email" className="text-sm font-medium ml-1">
                 Email
               </label>
               <Input
@@ -61,10 +61,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ onLogin, onRegister, isLoading = fa
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
                 required
+                className="rounded-xl border-border/20 h-11 bg-muted/20 focus-visible:ring-0 focus-visible:border-primary/30"
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">
+              <label htmlFor="password" className="text-sm font-medium ml-1">
                 Password
               </label>
               <Input
@@ -76,13 +77,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ onLogin, onRegister, isLoading = fa
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
                 required
+                className="rounded-xl border-border/20 h-11 bg-muted/20 focus-visible:ring-0 focus-visible:border-primary/30"
               />
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col">
+          </div>
+          <div className="flex flex-col gap-3">
             <Button 
               type="submit" 
-              className="w-full mb-2" 
+              className="w-full rounded-full h-11 font-normal text-base shadow-sm" 
               disabled={isLoading}
             >
               {isLoading ? 'Processing...' : isLoginView ? 'Login' : 'Create Account'}
@@ -92,12 +94,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ onLogin, onRegister, isLoading = fa
               variant="ghost"
               onClick={() => setIsLoginView(!isLoginView)}
               disabled={isLoading}
+              className="rounded-full font-normal hover:bg-muted/50"
             >
               {isLoginView ? 'Need an account? Register' : 'Already have an account? Login'}
             </Button>
-          </CardFooter>
+          </div>
         </form>
-      </Card>
+      </div>
     </div>
   );
 };

@@ -140,7 +140,7 @@ const SupportModal: React.FC<SupportModalProps> = ({
                 localStorage.setItem('support_modal_fulfilled', 'true');
                 onDontShowAgain();
               }}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-sm sm:text-base py-2 sm:py-3"
+              className="w-full text-sm sm:text-base py-2 sm:py-3"
             >
               <div className="flex items-center gap-2">
                 <ExternalLink className="h-4 w-4 flex-shrink-0" />

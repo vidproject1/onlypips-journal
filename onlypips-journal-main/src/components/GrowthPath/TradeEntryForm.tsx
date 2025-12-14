@@ -125,13 +125,14 @@ const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="actualProfitLoss">Actual Profit/Loss ($)</Label>
+        <Label htmlFor="actualProfitLoss" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Actual Profit/Loss ($)</Label>
         <Input
           id="actualProfitLoss"
           type="number"
           step="0.01"
           placeholder="0.00"
           {...register('actualProfitLoss', { valueAsNumber: true })}
+          className="border-border/20 focus-visible:ring-0 bg-muted/30 h-11 rounded-xl text-lg"
         />
         {errors.actualProfitLoss && (
           <p className="text-sm text-destructive">{errors.actualProfitLoss.message}</p>
@@ -139,33 +140,32 @@ const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="notes">Notes (optional)</Label>
+        <Label htmlFor="notes" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Notes (optional)</Label>
         <Textarea
           id="notes"
           placeholder="Add any notes about this trade..."
           {...register('notes')}
+          className="border-border/20 focus-visible:ring-0 bg-muted/30 min-h-[100px] rounded-xl resize-none"
         />
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="strategy" className="block text-sm font-medium mb-1">
-          Strategy
-        </label>
-        <input
+      <div className="mb-4 space-y-2">
+        <Label htmlFor="strategy" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Strategy</Label>
+        <Input
           id="strategy"
           type="text"
           maxLength={255}
           placeholder="e.g., Breakout Retest v2"
           {...register("strategy")}
-          className="input-class" // use your styling here
+          className="border-border/20 focus-visible:ring-0 bg-muted/30 h-11 rounded-xl"
         />
       </div>
 
-      <div className="flex gap-2">
-        <Button type="submit" disabled={isSubmitting} className="flex-1">
+      <div className="flex gap-2 pt-2">
+        <Button type="submit" disabled={isSubmitting} className="flex-1 rounded-full h-11">
           {isSubmitting ? 'Recording...' : 'Record Trade'}
         </Button>
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button type="button" variant="outline" onClick={onCancel} className="rounded-full h-11 border-border/20">
           Cancel
         </Button>
       </div>

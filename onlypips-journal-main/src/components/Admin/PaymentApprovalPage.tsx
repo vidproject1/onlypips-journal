@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Check, X, Eye, ExternalLink } from "lucide-react";
@@ -158,21 +157,21 @@ const PaymentApprovalPage: React.FC = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'pending':
-        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Pending</Badge>;
+        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 rounded-full font-normal">Pending</Badge>;
       case 'approved':
-        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Approved</Badge>;
+        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 rounded-full font-normal">Approved</Badge>;
       case 'rejected':
-        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Rejected</Badge>;
+        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 rounded-full font-normal">Rejected</Badge>;
       default:
-        return <Badge variant="outline">{status}</Badge>;
+        return <Badge variant="outline" className="rounded-full font-normal">{status}</Badge>;
     }
   };
 
   return (
     <div className="max-w-6xl mx-auto py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Payment Approval Dashboard</h1>
-        <Button onClick={fetchSubmissions} variant="outline">Refresh</Button>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-light tracking-tight">Payment Approval Dashboard</h1>
+        <Button onClick={fetchSubmissions} variant="outline" className="rounded-full">Refresh</Button>
       </div>
 
       {loading ? (
@@ -180,32 +179,30 @@ const PaymentApprovalPage: React.FC = () => {
       ) : (
         <div className="grid gap-4">
           {submissions.map((submission) => (
-            <Card key={submission.id}>
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="text-lg">
-                      {submission.marketplace_checklists.title}
-                    </CardTitle>
-                    <p className="text-muted-foreground">
-                      {submission.user_email} • R{submission.marketplace_checklists.price}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Submitted: {new Date(submission.submitted_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2 items-end">
-                    {getStatusBadge(submission.status)}
-                  </div>
+            <div key={submission.id} className="bg-background rounded-3xl border border-border/10 p-6 shadow-sm">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="text-lg font-medium tracking-tight">
+                    {submission.marketplace_checklists.title}
+                  </h3>
+                  <p className="text-muted-foreground font-light text-sm mt-1">
+                    {submission.user_email} • R{submission.marketplace_checklists.price}
+                  </p>
+                  <p className="text-xs text-muted-foreground font-light mt-1">
+                    Submitted: {new Date(submission.submitted_at).toLocaleDateString()}
+                  </p>
                 </div>
-              </CardHeader>
-              <CardContent>
+                <div className="flex flex-col gap-2 items-end">
+                  {getStatusBadge(submission.status)}
+                </div>
+              </div>
+              <div>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => viewProof(submission)}
-                    className="gap-1"
+                    className="gap-1 rounded-full"
                   >
                     <Eye className="h-4 w-4" />
                     View Proof
@@ -216,7 +213,7 @@ const PaymentApprovalPage: React.FC = () => {
                       <Button
                         size="sm"
                         onClick={() => handleApproval(submission.id, true)}
-                        className="gap-1 bg-green-600 hover:bg-green-700"
+                        className="gap-1 bg-green-600 hover:bg-green-700 rounded-full"
                       >
                         <Check className="h-4 w-4" />
                         Approve
@@ -225,7 +222,7 @@ const PaymentApprovalPage: React.FC = () => {
                         size="sm"
                         variant="destructive"
                         onClick={() => handleApproval(submission.id, false)}
-                        className="gap-1"
+                        className="gap-1 rounded-full"
                       >
                         <X className="h-4 w-4" />
                         Reject
@@ -233,8 +230,8 @@ const PaymentApprovalPage: React.FC = () => {
                     </>
                   )}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       )}

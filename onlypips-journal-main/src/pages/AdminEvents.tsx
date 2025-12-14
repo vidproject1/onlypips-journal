@@ -149,111 +149,112 @@ const AdminEvents: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      <div className="text-center space-y-2">
-        <div className="flex items-center justify-center gap-2">
-          <Settings className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold tracking-tight">Manage Economic Events</h1>
+    <div className="space-y-8 max-w-4xl mx-auto py-8">
+      <div className="text-center space-y-2 mb-8 animate-fade-in">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="bg-primary/10 p-3 rounded-full">
+            <Settings className="h-6 w-6 text-primary" />
+          </div>
         </div>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl font-light tracking-tight">Manage Economic Events</h1>
+        <p className="text-muted-foreground font-light max-w-lg mx-auto">
           Add, edit, and manage economic events for user predictions.
         </p>
       </div>
 
       {/* Add new event */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Plus className="h-5 w-5" />
+      <div className="bg-background rounded-3xl border border-border/10 p-8 shadow-sm">
+        <div className="mb-6">
+          <h2 className="text-xl font-light tracking-tight flex items-center gap-2">
+            <Plus className="h-5 w-5 text-primary" />
             Add New Event
-          </CardTitle>
-          <CardDescription>
+          </h2>
+          <p className="text-sm text-muted-foreground font-light mt-1">
             Create a new economic event that users can make predictions on.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          </p>
+        </div>
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="event-name">Event Name *</Label>
+              <Label htmlFor="event-name" className="text-sm font-medium ml-1">Event Name *</Label>
               <Input
                 id="event-name"
                 placeholder="e.g., NFP (Non-Farm Payrolls)"
                 value={newEvent.name}
                 onChange={(e) => setNewEvent(prev => ({ ...prev, name: e.target.value }))}
+                className="rounded-xl border-border/20 bg-muted/20"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="event-description">Description</Label>
+              <Label htmlFor="event-description" className="text-sm font-medium ml-1">Description</Label>
               <Input
                 id="event-description"
                 placeholder="Brief description of the event"
                 value={newEvent.description}
                 onChange={(e) => setNewEvent(prev => ({ ...prev, description: e.target.value }))}
+                className="rounded-xl border-border/20 bg-muted/20"
               />
             </div>
           </div>
           <Button 
             onClick={handleAddEvent}
             disabled={adding || !newEvent.name.trim()}
-            className="w-full md:w-auto"
+            className="w-full md:w-auto rounded-full px-6"
           >
             <Plus className="h-4 w-4 mr-2" />
             {adding ? 'Adding...' : 'Add Event'}
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Events list */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold">Existing Events</h2>
+        <h2 className="text-xl font-light tracking-tight ml-2">Existing Events</h2>
         {events.length === 0 ? (
-          <Card>
-            <CardContent className="text-center py-12">
-              <Settings className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">No events created yet.</p>
-            </CardContent>
-          </Card>
+          <div className="bg-background rounded-3xl border border-border/10 p-12 text-center shadow-sm">
+            <Settings className="h-12 w-12 text-muted-foreground/30 mx-auto mb-4" />
+            <p className="text-muted-foreground font-light">No events created yet.</p>
+          </div>
         ) : (
           events.map((event) => (
-            <Card key={event.id}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold">{event.name}</h3>
-                      <Badge variant={event.is_active ? 'default' : 'secondary'}>
-                        {event.is_active ? 'Active' : 'Inactive'}
-                      </Badge>
-                    </div>
-                    {event.description && (
-                      <p className="text-sm text-muted-foreground">{event.description}</p>
-                    )}
-                    <p className="text-xs text-muted-foreground">
-                      Created: {new Date(event.created_at).toLocaleDateString()}
-                    </p>
+            <div key={event.id} className="bg-background rounded-3xl border border-border/10 p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex-1 space-y-1">
+                  <div className="flex items-center gap-3">
+                    <h3 className="font-medium text-lg tracking-tight">{event.name}</h3>
+                    <Badge variant={event.is_active ? 'default' : 'secondary'} className="rounded-full font-normal">
+                      {event.is_active ? 'Active' : 'Inactive'}
+                    </Badge>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                      <Label htmlFor={`active-${event.id}`} className="text-sm">
-                        Active
-                      </Label>
-                      <Switch
-                        id={`active-${event.id}`}
-                        checked={event.is_active}
-                        onCheckedChange={(checked) => handleToggleActive(event.id, checked)}
-                      />
-                    </div>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => handleDeleteEvent(event.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+                  {event.description && (
+                    <p className="text-sm text-muted-foreground font-light">{event.description}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground/70 font-light pt-1">
+                    Created: {new Date(event.created_at).toLocaleDateString()}
+                  </p>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex items-center gap-6 pt-4 md:pt-0 border-t md:border-t-0 border-border/10">
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor={`active-${event.id}`} className="text-sm font-light">
+                      Active
+                    </Label>
+                    <Switch
+                      id={`active-${event.id}`}
+                      checked={event.is_active}
+                      onCheckedChange={(checked) => handleToggleActive(event.id, checked)}
+                    />
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDeleteEvent(event.id)}
+                    className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full h-9 w-9 p-0"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
           ))
         )}
       </div>

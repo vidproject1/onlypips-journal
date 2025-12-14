@@ -177,36 +177,37 @@ const AccountList: React.FC<Props> = ({ accounts, onAccountDeleted }) => {
   return (
     <div className="grid md:grid-cols-2 gap-4 mt-4">
       {accounts.map((acc) => (
-        <Card 
+        <div 
           key={acc.id} 
-          className="p-4 flex justify-between items-center hover:bg-muted/50 transition"
+          className="group relative p-6 rounded-2xl border border-border/10 bg-background hover:bg-muted/30 transition-all duration-300 flex justify-between items-center cursor-pointer"
+          onClick={() =>
+            navigate(`/dashboard/${acc.type.toLowerCase()}/${encodeURIComponent(acc.name)}`)
+          }
         >
-          <div 
-            className="flex-1 cursor-pointer"
-            onClick={() =>
-              navigate(`/dashboard/${acc.type.toLowerCase()}/${encodeURIComponent(acc.name)}`)
-            }
-          >
-            <div className="font-semibold">{acc.name}</div>
-            <div className="text-xs text-muted-foreground uppercase">{acc.type}</div>
+          <div className="flex-1">
+            <div className="text-xl font-light tracking-tight group-hover:text-primary transition-colors">{acc.name}</div>
+            <div className={`text-xs font-medium uppercase tracking-wider mt-1 ${acc.type === 'REAL' ? 'text-emerald-500' : 'text-blue-500'}`}>{acc.type}</div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <Button
               variant="ghost"
               size="icon"
-              className="cursor-pointer"
-              onClick={() =>
-                navigate(`/dashboard/${acc.type.toLowerCase()}/${encodeURIComponent(acc.name)}`)
-              }
+              className="h-8 w-8 hover:bg-background"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/dashboard/${acc.type.toLowerCase()}/${encodeURIComponent(acc.name)}`);
+              }}
             >
               <ArrowRight className="w-4 h-4" />
             </Button>
+            
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                  className="h-8 w-8 hover:bg-background text-muted-foreground hover:text-destructive"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
@@ -215,22 +216,25 @@ const AccountList: React.FC<Props> = ({ accounts, onAccountDeleted }) => {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete Account</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete the account "{acc.name}"? This action cannot be undone and will permanently remove the account and all associated trades.
+                    Are you sure you want to delete "{acc.name}"? This will permanently delete the account and all its {acc.type} trades.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel onClick={(e) => e.stopPropagation()}>Cancel</AlertDialogCancel>
                   <AlertDialogAction
-                    onClick={() => handleDeleteAccount(acc.id, acc.name)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteAccount(acc.id, acc.name);
+                    }}
                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                   >
-                    Delete Account
+                    Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
           </div>
-        </Card>
+        </div>
       ))}
     </div>
   );

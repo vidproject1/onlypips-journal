@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -95,99 +94,102 @@ const GrowthPlanDashboard: React.FC<GrowthPlanDashboardProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-fade-in">
       {/* Plan Overview */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+      <div className="bg-background rounded-3xl border border-border/10 p-8 shadow-sm">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
           <div>
-            <CardTitle>Your Growth Plan</CardTitle>
-            <div className="flex items-center gap-2 mt-2">
-              <Badge className={getRiskLevelColor(plan.risk_level)}>
+            <h2 className="text-2xl font-light tracking-tight">Your Growth Plan</h2>
+            <div className="flex items-center gap-3 mt-3">
+              <Badge className={`${getRiskLevelColor(plan.risk_level)} px-3 py-1 rounded-full font-normal`}>
                 {plan.risk_level} Risk ({plan.risk_percentage}%)
               </Badge>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-muted-foreground font-light">
                 Started {new Date(plan.created_at).toLocaleDateString()}
               </span>
             </div>
           </div>
-          <Button variant="outline" onClick={onPlanReset}>
+          <Button variant="outline" onClick={onPlanReset} className="mt-4 md:mt-0 rounded-full border-border/20 hover:bg-muted/30 font-normal">
             Reset Plan
           </Button>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div className="text-center">
-              <p className="text-2xl font-bold">${plan.current_balance.toFixed(2)}</p>
-              <p className="text-sm text-muted-foreground">Current Balance</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold">${plan.target_balance.toFixed(2)}</p>
-              <p className="text-sm text-muted-foreground">Target Balance</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold">{plan.trades_completed}</p>
-              <p className="text-sm text-muted-foreground">Trades Completed</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold">{remainingTrades}</p>
-              <p className="text-sm text-muted-foreground">Trades Remaining</p>
-            </div>
+        </div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+          <div className="text-center p-4 bg-background rounded-3xl border border-border/10 shadow-sm">
+            <p className="text-3xl font-light tracking-tight">${plan.current_balance.toFixed(2)}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mt-1">Current Balance</p>
           </div>
+          <div className="text-center p-4 bg-background rounded-3xl border border-border/10 shadow-sm">
+            <p className="text-3xl font-light tracking-tight">${plan.target_balance.toFixed(2)}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mt-1">Target Balance</p>
+          </div>
+          <div className="text-center p-4 bg-background rounded-3xl border border-border/10 shadow-sm">
+            <p className="text-3xl font-light tracking-tight">{plan.trades_completed}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mt-1">Trades Completed</p>
+          </div>
+          <div className="text-center p-4 bg-background rounded-3xl border border-border/10 shadow-sm">
+            <p className="text-3xl font-light tracking-tight">{remainingTrades}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mt-1">Trades Remaining</p>
+          </div>
+        </div>
 
-          <div className="space-y-4">
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span>Balance Progress</span>
-                <span>{balanceProgress.toFixed(1)}%</span>
-              </div>
-              <Progress value={Math.min(balanceProgress, 100)} className="h-2" />
+        <div className="space-y-6">
+          <div>
+            <div className="flex justify-between text-sm mb-2 font-light">
+              <span>Balance Progress</span>
+              <span>{balanceProgress.toFixed(1)}%</span>
             </div>
-            
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span>Trades Progress</span>
-                <span>{tradesProgress.toFixed(1)}%</span>
-              </div>
-              <Progress value={Math.min(tradesProgress, 100)} className="h-2" />
-            </div>
+            <Progress value={Math.min(balanceProgress, 100)} className="h-1.5 rounded-full" />
           </div>
-        </CardContent>
-      </Card>
+          
+          <div>
+            <div className="flex justify-between text-sm mb-2 font-light">
+              <span>Trades Progress</span>
+              <span>{tradesProgress.toFixed(1)}%</span>
+            </div>
+            <Progress value={Math.min(tradesProgress, 100)} className="h-1.5 rounded-full" />
+          </div>
+        </div>
+      </div>
 
       {/* Updated Calculations */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Updated Targets</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-muted/50 rounded-lg">
-              <p className="text-lg font-bold">${updatedProfitPerTrade.toFixed(2)}</p>
-              <p className="text-sm text-muted-foreground">Profit Per Trade Needed</p>
-            </div>
-            <div className="text-center p-4 bg-muted/50 rounded-lg">
-              <p className="text-lg font-bold">${updatedRiskPerTrade.toFixed(2)}</p>
-              <p className="text-sm text-muted-foreground">Risk Per Trade</p>
-            </div>
-            <div className="text-center p-4 bg-muted/50 rounded-lg">
-              <p className="text-lg font-bold">${remainingAmount.toFixed(2)}</p>
-              <p className="text-sm text-muted-foreground">Remaining to Goal</p>
-            </div>
+      <div className="bg-background rounded-3xl border border-border/10 p-8 shadow-sm">
+        <div className="mb-6">
+          <h2 className="text-xl font-light tracking-tight">Updated Targets</h2>
+          <p className="text-sm text-muted-foreground mt-1">Dynamic calculations based on your current progress</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center p-6 bg-emerald-500/5 rounded-3xl border border-emerald-500/10">
+            <p className="text-2xl font-medium text-emerald-600 dark:text-emerald-400">${updatedProfitPerTrade.toFixed(2)}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mt-2">Profit Per Trade Needed</p>
           </div>
-        </CardContent>
-      </Card>
+          <div className="text-center p-6 bg-rose-500/5 rounded-3xl border border-rose-500/10">
+            <p className="text-2xl font-medium text-rose-600 dark:text-rose-400">${updatedRiskPerTrade.toFixed(2)}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mt-2">Risk Per Trade</p>
+          </div>
+          <div className="text-center p-6 bg-blue-500/5 rounded-3xl border border-blue-500/10">
+            <p className="text-2xl font-medium text-blue-600 dark:text-blue-400">${remainingAmount.toFixed(2)}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mt-2">Remaining to Goal</p>
+          </div>
+        </div>
+      </div>
 
       {/* Chart */}
-      <GrowthChart plan={plan} trades={trades} />
+      <div className="bg-background rounded-3xl border border-border/10 p-1 shadow-sm overflow-hidden">
+        <GrowthChart plan={plan} trades={trades} />
+      </div>
 
       {/* Trade Entry */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Record Today's Trade</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="bg-background rounded-3xl border border-border/10 p-8 shadow-sm">
+        <div className="mb-6">
+          <h2 className="text-xl font-light tracking-tight">Record Today's Trade</h2>
+        </div>
+        <div>
           {!showTradeForm ? (
-            <Button onClick={() => setShowTradeForm(true)} className="w-full">
+            <Button 
+              onClick={() => setShowTradeForm(true)} 
+              className="w-full rounded-full h-12 text-base font-medium shadow-sm hover:shadow-md transition-all"
+            >
               Add Trade Result
             </Button>
           ) : (
@@ -198,41 +200,8 @@ const GrowthPlanDashboard: React.FC<GrowthPlanDashboardProps> = ({
               onCancel={() => setShowTradeForm(false)}
             />
           )}
-        </CardContent>
-      </Card>
-
-      {/* Recent Trades */}
-      {trades.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Trades</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {trades.slice(0, 5).map((trade) => (
-                <div key={trade.id} className="flex justify-between items-center p-2 border rounded">
-                  <div>
-                    <p className="font-medium">
-                      {new Date(trade.trade_date).toLocaleDateString()}
-                    </p>
-                    {trade.notes && (
-                      <p className="text-sm text-muted-foreground">{trade.notes}</p>
-                    )}
-                  </div>
-                  <div className="text-right">
-                    <p className={`font-bold ${trade.actual_profit_loss >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {trade.actual_profit_loss >= 0 ? '+' : ''}${trade.actual_profit_loss.toFixed(2)}
-                    </p>
-                    <Badge variant={trade.hit_target ? 'default' : 'secondary'}>
-                      {trade.hit_target ? 'Target Hit' : 'Target Missed'}
-                    </Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+        </div>
+      </div>
     </div>
   );
 };

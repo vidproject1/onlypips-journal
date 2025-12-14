@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface StatsCardProps {
   title: string;
@@ -28,28 +27,28 @@ const StatsCard: React.FC<StatsCardProps> = ({
   }, [delay]);
   
   return (
-    <Card 
-      className={`glass-card transform transition-all duration-500 ${
+    <div 
+      className={`bg-background rounded-3xl border border-border/10 p-6 shadow-sm transform transition-all duration-500 ${
         isVisible 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-4'
       }`}
     >
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-medium">
+      <div className="flex flex-row items-center justify-between pb-2">
+        <h3 className="text-sm font-medium tracking-wide">
           {title}
-        </CardTitle>
+        </h3>
         {icon && <div className="text-primary">{icon}</div>}
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+      </div>
+      <div>
+        <div className="text-2xl font-light tracking-tight">{value}</div>
         {description && (
-          <p className="text-xs text-muted-foreground pt-1">
+          <p className="text-xs text-muted-foreground font-light pt-1">
             {description}
           </p>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

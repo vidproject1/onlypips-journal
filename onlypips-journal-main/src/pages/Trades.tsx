@@ -109,16 +109,18 @@ const Trades: React.FC<TradesProps> = ({ userId }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Trades</h1>
-        <p className="text-muted-foreground">
-          Log and review your trading activity. Choose an account to view/add trades.
-        </p>
-        <div className="mb-4 mt-4">
-          <label className="font-medium mr-1">Select Account:</label>
+    <div className="space-y-6 max-w-5xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-light tracking-tight">Trades</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Log and review your trading activity
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Account</span>
           <select
-            className="border px-3 py-1 rounded bg-background"
+            className="border-none bg-muted/30 px-4 py-2 rounded-full text-sm font-medium focus:ring-0 cursor-pointer hover:bg-muted/50 transition-colors"
             value={selectedAccountId || ''}
             onChange={(e) => setSelectedAccountId(e.target.value)}
           >
@@ -130,18 +132,19 @@ const Trades: React.FC<TradesProps> = ({ userId }) => {
           </select>
         </div>
       </div>
+
       <Tabs defaultValue="list" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="list">Trade Log</TabsTrigger>
-          <TabsTrigger value="add">
-            <Plus className="h-4 w-4 mr-1" />
+        <TabsList className="w-full md:w-auto bg-muted/30 p-1 rounded-full">
+          <TabsTrigger value="list" className="rounded-full px-6 data-[state=active]:bg-background data-[state=active]:shadow-sm">Trade Log</TabsTrigger>
+          <TabsTrigger value="add" className="rounded-full px-6 data-[state=active]:bg-background data-[state=active]:shadow-sm">
+            <Plus className="h-3 w-3 mr-2" />
             Add Trade
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="list" className="space-y-4">
+        <TabsContent value="list" className="mt-6 space-y-4">
           {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="animate-pulse text-primary">Loading...</div>
+            <div className="flex justify-center items-center h-64 text-muted-foreground font-light">
+              Loading...
             </div>
           ) : (
             <TradeList
@@ -149,7 +152,7 @@ const Trades: React.FC<TradesProps> = ({ userId }) => {
             />
           )}
         </TabsContent>
-        <TabsContent value="add">
+        <TabsContent value="add" className="mt-6">
           <TradeForm onSubmit={handleSubmitTrade} userId={userId} />
         </TabsContent>
       </Tabs>

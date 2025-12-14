@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Auth from './Auth';
 import Dashboard from './Dashboard';
 import Trades from './Trades';
-import Predictor from './Predictor';
 import GrowthPath from './GrowthPath';
 import ChecklistPage from '@/components/Checklist/ChecklistPage';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -12,7 +11,6 @@ import { Session } from '@supabase/supabase-js';
 import AdminNotifications from './AdminNotifications';
 import AccountsPage from "./Accounts";
 import PaymentApprovalPage from '@/components/Admin/PaymentApprovalPage';
-import TradeSimPage from './TradeSimPage';
 
 const Index = () => {
   const [user, setUser] = useState<any>(null);
@@ -74,7 +72,6 @@ const Index = () => {
           <Dashboard userId={user.id} />
         } />
         <Route path="/trades" element={<Trades userId={user.id} />} />
-        <Route path="/predictor" element={<Predictor userId={user.id} />} />
         <Route path="/growth-path" element={<GrowthPath userId={user.id} />} />
         <Route path="/checklist" element={<ChecklistPage userId={user.id} />} />
         <Route path="/admin" element={<AdminNotifications />} />
@@ -83,7 +80,6 @@ const Index = () => {
             <PaymentApprovalPage />
           </div>
         } />
-        <Route path="/trade-sim" element={<TradeSimPage userId={user.id} />} />
         {/* Legacy root fallback: redirect to accounts summary */}
         <Route path="/" element={<Navigate to="/accounts" replace />} />
         <Route path="*" element={<Navigate to="/accounts" replace />} />

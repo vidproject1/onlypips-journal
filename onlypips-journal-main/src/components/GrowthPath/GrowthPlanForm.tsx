@@ -127,45 +127,47 @@ const GrowthPlanForm: React.FC<GrowthPlanFormProps> = ({ userId, onPlanCreated }
     calculatePlan(startingBalance, targetBalance, currentRiskPercentage) : null;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <Label htmlFor="startingBalance">Starting Balance ($)</Label>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="space-y-3">
+          <Label htmlFor="startingBalance" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Starting Balance ($)</Label>
           <Input
             id="startingBalance"
             type="number"
             step="0.01"
             placeholder="30.00"
             {...register('startingBalance', { valueAsNumber: true })}
+            className="border-border/20 focus-visible:ring-0 bg-muted/30 h-11 rounded-3xl text-lg"
           />
           {errors.startingBalance && (
-            <p className="text-sm text-destructive">{errors.startingBalance.message}</p>
+            <p className="text-sm text-rose-500 font-medium">{errors.startingBalance.message}</p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="targetBalance">Target Balance ($)</Label>
+        <div className="space-y-3">
+          <Label htmlFor="targetBalance" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Target Balance ($)</Label>
           <Input
             id="targetBalance"
             type="number"
             step="0.01"
             placeholder="500.00"
             {...register('targetBalance', { valueAsNumber: true })}
+            className="border-border/20 focus-visible:ring-0 bg-muted/30 h-11 rounded-3xl text-lg"
           />
           {errors.targetBalance && (
-            <p className="text-sm text-destructive">{errors.targetBalance.message}</p>
+            <p className="text-sm text-rose-500 font-medium">{errors.targetBalance.message}</p>
           )}
         </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="riskLevel">Risk Level</Label>
+      <div className="space-y-6">
+        <div className="space-y-3">
+          <Label htmlFor="riskLevel" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Risk Level</Label>
           <Select 
             value={riskLevel} 
             onValueChange={(value) => setValue('riskLevel', value as 'Low' | 'Medium' | 'High' | 'Custom')}
           >
-            <SelectTrigger>
+            <SelectTrigger className="border-border/20 focus:ring-0 bg-muted/30 h-11 rounded-3xl">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -176,13 +178,13 @@ const GrowthPlanForm: React.FC<GrowthPlanFormProps> = ({ userId, onPlanCreated }
             </SelectContent>
           </Select>
           {errors.riskLevel && (
-            <p className="text-sm text-destructive">{errors.riskLevel.message}</p>
+            <p className="text-sm text-rose-500 font-medium">{errors.riskLevel.message}</p>
           )}
         </div>
 
         {riskLevel === 'Custom' && (
-          <div className="space-y-2">
-            <Label htmlFor="customRiskPercentage">Custom Risk Percentage (%)</Label>
+          <div className="space-y-3 animate-fade-in">
+            <Label htmlFor="customRiskPercentage" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Custom Risk Percentage (%)</Label>
             <Input
               id="customRiskPercentage"
               type="number"
@@ -191,11 +193,12 @@ const GrowthPlanForm: React.FC<GrowthPlanFormProps> = ({ userId, onPlanCreated }
               max="50"
               placeholder="7.5"
               {...register('customRiskPercentage', { valueAsNumber: true })}
+              className="border-border/20 focus-visible:ring-0 bg-muted/30 h-11 rounded-3xl"
             />
             {errors.customRiskPercentage && (
-              <p className="text-sm text-destructive">{errors.customRiskPercentage.message}</p>
+              <p className="text-sm text-rose-500 font-medium">{errors.customRiskPercentage.message}</p>
             )}
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground font-light">
               Enter a value between 0.1% and 50%
             </p>
           </div>
@@ -222,9 +225,15 @@ const GrowthPlanForm: React.FC<GrowthPlanFormProps> = ({ userId, onPlanCreated }
         </div>
       )}
 
-      <Button type="submit" disabled={isSubmitting} className="w-full">
-        {isSubmitting ? 'Creating Plan...' : 'Create Growth Plan'}
-      </Button>
+      <div className="pt-4">
+        <Button 
+          type="submit" 
+          className="w-full rounded-full h-12 text-base font-medium shadow-sm hover:shadow-md transition-all" 
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Creating Plan..." : "Create Growth Plan"}
+        </Button>
+      </div>
     </form>
   );
 };

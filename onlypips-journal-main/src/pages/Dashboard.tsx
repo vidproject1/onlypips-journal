@@ -224,7 +224,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userId, accountType, accountName 
                   {trades.length >= 5 ? (
                      <AdvancedCharts trades={trades} />
                   ) : (
-                    <div className="flex items-center justify-center h-48 text-muted-foreground font-light text-sm border border-dashed border-border/50 rounded-lg">
+                    <div className="flex items-center justify-center h-48 text-muted-foreground font-light text-sm border border-dashed border-border/50 rounded-3xl">
                       Need at least 5 trades to show advanced analysis
                     </div>
                   )}
@@ -236,7 +236,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userId, accountType, accountName 
                   {trades.length >= 10 ? (
                     <PerformanceMetrics trades={trades} />
                   ) : (
-                    <div className="flex items-center justify-center h-48 text-muted-foreground font-light text-sm border border-dashed border-border/50 rounded-lg">
+                    <div className="flex items-center justify-center h-48 text-muted-foreground font-light text-sm border border-dashed border-border/50 rounded-3xl">
                       Need at least 10 trades to show detailed performance metrics
                     </div>
                   )}
@@ -248,7 +248,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userId, accountType, accountName 
                     {trades.map((trade) => (
                       <div 
                         key={trade.id} 
-                        className="group flex items-center justify-between p-4 rounded-lg hover:bg-muted/30 transition-colors border border-transparent hover:border-border/40"
+                        className="group flex items-center justify-between p-4 rounded-3xl hover:bg-muted/30 transition-colors border border-transparent hover:border-border/40"
                       >
                         <div className="flex items-center gap-4">
                           <div className={`w-1 h-12 rounded-full ${

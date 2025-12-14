@@ -42,12 +42,12 @@ const ChecklistInfo: React.FC = () => {
         <PopoverContent
           ref={popoverRef}
           side="top"
-          className="bg-popover text-popover-foreground border p-2 rounded shadow-lg animate-fade-in"
+          className="bg-popover text-popover-foreground border p-4 rounded-3xl shadow-lg animate-fade-in"
           align="start"
         >
           <div className="max-w-xs text-sm">
-            <strong>Trade Checklist:</strong>
-            <ul className="list-disc ml-4 mt-2">
+            <strong className="block mb-2 font-medium">Trade Checklist:</strong>
+            <ul className="list-disc ml-4 space-y-1 text-muted-foreground">
               <li>Create named strategies for your personal trading plans.</li>
               <li>Add checklist items to document your required confluences or conditions.</li>
               <li>Check off each item before taking a trade to help ensure you follow your plan.</li>

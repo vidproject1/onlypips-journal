@@ -4,7 +4,6 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import GrowthPlanForm from '@/components/GrowthPath/GrowthPlanForm';
 import GrowthPlanDashboard from '@/components/GrowthPath/GrowthPlanDashboard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface GrowthPlan {
   id: string;
@@ -103,23 +102,24 @@ const GrowthPath: React.FC<GrowthPathProps> = ({ userId }) => {
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Growth Path</h1>
-        <p className="text-muted-foreground">
+    <div className="container mx-auto p-6 max-w-5xl animate-fade-in">
+      <div className="mb-10 text-center md:text-left">
+        <h1 className="text-4xl font-light tracking-tight mb-3">Growth Path</h1>
+        <p className="text-muted-foreground text-lg font-light">
           Systematically grow your trading account with calculated progression
         </p>
       </div>
 
       {!currentPlan ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>Create Your Growth Plan</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="max-w-xl mx-auto">
+          <div className="bg-background rounded-3xl border border-border/10 p-8 shadow-sm">
+            <div className="mb-8 text-center">
+              <h2 className="text-2xl font-light tracking-tight">Create Your Growth Plan</h2>
+              <p className="text-sm text-muted-foreground mt-2">Define your starting point and financial goals</p>
+            </div>
             <GrowthPlanForm userId={userId} onPlanCreated={handlePlanCreated} />
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : (
         <GrowthPlanDashboard 
           plan={currentPlan} 

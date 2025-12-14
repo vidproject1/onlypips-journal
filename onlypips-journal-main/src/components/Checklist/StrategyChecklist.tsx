@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Check, Pencil, FileText, FileIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -112,55 +111,92 @@ const StrategyChecklist: React.FC<StrategyChecklistProps> = ({ strategyId }) => 
   const [editingContent, setEditingContent] = useState("");
 
   return (
-    <Card className="mt-4">
-      <CardHeader>
-        <h3 className="text-base font-semibold flex items-center gap-2">
-          <FileText className="h-4 w-4" /> Strategy Checklist
-        </h3>
-      </CardHeader>
-      <CardContent>
+    <div className="bg-background rounded-3xl border border-border/10 p-8 shadow-sm h-full animate-fade-in">
+      <div className="flex items-center justify-between mb-8 border-b border-border/40 pb-6">
+        <div>
+          <h3 className="text-xl font-light tracking-tight flex items-center gap-2">
+            <FileText className="h-5 w-5 text-primary" /> 
+            Strategy Checklist
+          </h3>
+          <p className="text-sm text-muted-foreground mt-1 ml-7">
+            Define your execution rules and confirmation criteria
+          </p>
+        </div>
+        <div className="text-xs text-muted-foreground font-light bg-muted/20 px-3 py-1 rounded-full border border-border/10">
+          {items.length} Items
+        </div>
+      </div>
+
+      <div className="space-y-6">
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleAdd();
           }}
-          className="flex gap-2 mb-4"
+          className="relative"
         >
           <Input
-            placeholder="Add checklist item..."
+            placeholder="Add new checklist item..."
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}
             disabled={loading}
+            className="border-border/20 focus-visible:ring-0 bg-muted/30 h-12 rounded-xl pr-12 text-base"
           />
-          <Button type="submit" disabled={!newItem.trim() || loading}>
-            <FileIcon className="h-4 w-4 mr-1" />
-            Add
+          <Button 
+            type="submit" 
+            disabled={!newItem.trim() || loading}
+            size="icon"
+            className="absolute right-1 top-1 h-10 w-10 rounded-lg shadow-sm"
+          >
+            <FileIcon className="h-5 w-5" />
           </Button>
         </form>
-        <ul className="space-y-2">
-          {items.length === 0 && <li className="text-muted-foreground text-sm">No items yet.</li>}
+
+        <ul className="space-y-3">
+          {items.length === 0 && (
+            <div className="text-center py-12 flex flex-col items-center justify-center text-muted-foreground">
+              <div className="w-12 h-12 rounded-full bg-muted/30 flex items-center justify-center mb-3">
+                <ListChecks className="h-6 w-6 text-muted-foreground/50" />
+              </div>
+              <p>No checklist items yet.</p>
+              <p className="text-xs mt-1 text-muted-foreground/70">Add your first rule above.</p>
+            </div>
+          )}
+          
           {items.map((item) => (
-            <li key={item.id} className="flex items-center justify-between gap-2 group">
+            <li 
+              key={item.id} 
+              className={`
+                group flex items-center justify-between gap-3 p-3 rounded-xl border transition-all duration-200
+                ${item.is_checked 
+                  ? "bg-muted/10 border-border/10" 
+                  : "bg-background border-border/20 hover:border-border/40 hover:shadow-sm"
+                }
+              `}
+            >
               <div
-                className={`flex items-center gap-2 flex-1 cursor-pointer ${
-                  item.is_checked ? "line-through text-muted-foreground" : ""
+                className={`flex items-center gap-3 flex-1 cursor-pointer transition-opacity ${
+                  item.is_checked ? "opacity-60" : "opacity-100"
                 }`}
                 onClick={() => handleToggle(item)}
               >
-                <Button
-                  variant={item.is_checked ? "default" : "outline"}
-                  size="icon"
-                  className="h-7 w-7"
-                  tabIndex={-1}
-                >
-                  <Check className={`h-4 w-4 ${item.is_checked ? "text-green-600" : ""}`} />
-                </Button>
+                <div className={`
+                  h-6 w-6 rounded-full border flex items-center justify-center transition-colors
+                  ${item.is_checked 
+                    ? "bg-primary border-primary text-primary-foreground" 
+                    : "border-muted-foreground/30 group-hover:border-primary/50"
+                  }
+                `}>
+                  {item.is_checked && <Check className="h-3.5 w-3.5" />}
+                </div>
+                
                 {editing === item.id ? (
                   <Input
-                    className="bg-background"
+                    className="h-9 bg-background border-border/20 rounded-lg text-sm flex-1"
                     autoFocus
                     value={editingContent}
                     onChange={(e) => setEditingContent(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                     onBlur={() => {
                       setEditing(null);
                       setEditingContent("");
@@ -173,36 +209,43 @@ const StrategyChecklist: React.FC<StrategyChecklistProps> = ({ strategyId }) => 
                     }}
                   />
                 ) : (
-                  <span>{item.content}</span>
+                  <span className={`text-sm font-medium ${item.is_checked ? "line-through text-muted-foreground" : "text-foreground"}`}>
+                    {item.content}
+                  </span>
                 )}
               </div>
-              <div className="flex gap-1">
+
+              <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="h-7 w-7"
-                  onClick={() => {
+                  className="h-8 w-8 rounded-lg hover:bg-muted"
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setEditing(item.id);
                     setEditingContent(item.content);
                   }}
                 >
-                  <Pencil className="h-4 w-4" />
+                  <Pencil className="h-4 w-4 text-muted-foreground" />
                 </Button>
                 <Button
                   size="icon"
-                  variant="destructive"
-                  className="h-7 w-7"
-                  onClick={() => handleDelete(item.id)}
+                  variant="ghost"
+                  className="h-8 w-8 rounded-lg hover:bg-destructive/10 hover:text-destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(item.id);
+                  }}
                 >
                   <span className="sr-only">Delete</span>
-                  ×
+                  <span className="text-lg leading-none mb-1">×</span>
                 </Button>
               </div>
             </li>
           ))}
         </ul>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

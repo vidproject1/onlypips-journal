@@ -63,8 +63,6 @@ const NavBar: React.FC<NavBarProps> = ({ onLogout, userId }) => {
           <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
             <NavLink to="/accounts" icon={BarChart3}>Dashboard</NavLink>
             <NavLink to="/trades" icon={BookOpen}>Trades</NavLink>
-            <NavLink to="/predictor" icon={Target}>Predictor</NavLink>
-            <NavLink to="/trade-sim" icon={BarChart3}>TradeSim</NavLink>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="ml-2">
@@ -122,8 +120,6 @@ const NavBar: React.FC<NavBarProps> = ({ onLogout, userId }) => {
               <nav className="flex flex-col gap-4 p-4">
                 <NavLink to="/accounts" icon={BarChart3} className="p-2">Dashboard</NavLink>
                 <NavLink to="/trades" icon={BookOpen} className="p-2">Trades</NavLink>
-                <NavLink to="/predictor" icon={Target} className="p-2">Predictor</NavLink>
-                <NavLink to="/trade-sim" icon={BarChart3} className="p-2">TradeSim</NavLink>
                 <NavLink to="/growth-path" icon={TrendingUpIcon} className="p-2">Growth Path</NavLink>
                 <NavLink to="/checklist" icon={ListChecks} className="p-2">Checklist</NavLink>
                 

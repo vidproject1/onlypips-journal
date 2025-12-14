@@ -30,87 +30,113 @@ const TradeCard: React.FC<{ trade: Trade }> = ({ trade }) => {
   };
 
   return (
-    <Card className={`glass-card card-animate mb-4 overflow-hidden transition-all ${expanded ? 'pb-3' : ''}`}>
+    <div className={`group mb-3 overflow-hidden transition-all duration-300 rounded-2xl border border-border/10 bg-background hover:bg-muted/30 ${expanded ? 'bg-muted/30 pb-4' : ''}`}>
       <div 
-        className="flex justify-between items-center p-4 cursor-pointer" 
+        className="flex justify-between items-center p-5 cursor-pointer" 
         onClick={() => setExpanded(!expanded)}
       >
-        <div className="flex items-center gap-3">
-          {trade.result === 'BREAK EVEN' || trade.is_break_even ? (
-            <MinusCircle className="h-5 w-5 text-neutral" />
-          ) : trade.direction === 'BUY' ? (
-            <ArrowUpCircle className="h-5 w-5 text-profit" />
-          ) : (
-            <ArrowDownCircle className="h-5 w-5 text-loss" />
-          )}
+        <div className="flex items-center gap-4">
+          <div className={`p-2 rounded-full ${
+            trade.result === 'BREAK EVEN' || trade.is_break_even ? 'bg-muted text-muted-foreground' :
+            trade.direction === 'BUY' ? (trade.result === 'WIN' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500') :
+            (trade.result === 'WIN' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500')
+          }`}>
+            {trade.result === 'BREAK EVEN' || trade.is_break_even ? (
+              <MinusCircle className="h-4 w-4" />
+            ) : trade.direction === 'BUY' ? (
+              <ArrowUpCircle className="h-4 w-4" />
+            ) : (
+              <ArrowDownCircle className="h-4 w-4" />
+            )}
+          </div>
           <div className="flex flex-col">
-            <span className="font-medium">{trade.pair}</span>
-            <Badge variant="outline" className="w-fit text-xs">
-              {trade.trade_type}
-            </Badge>
+            <span className="text-lg font-light tracking-tight">{trade.pair}</span>
+            <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+              {formatDate(trade.created_at)}
+            </span>
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
-          <Badge className={resultColor}>
+        <div className="flex items-center gap-4">
+          <Badge className={`border-none px-3 py-1 text-xs font-medium uppercase tracking-wider rounded-full ${
+            trade.result === 'WIN' ? 'bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20' : 
+            trade.result === 'LOSS' ? 'bg-rose-500/10 text-rose-500 hover:bg-rose-500/20' : 
+            'bg-muted text-muted-foreground hover:bg-muted/80'
+          }`}>
             {trade.result}
           </Badge>
-          {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          <div className="text-muted-foreground/50 transition-transform duration-300" style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+            <ChevronDown className="h-4 w-4" />
+          </div>
         </div>
       </div>
       
       {expanded && (
-        <CardContent className="pt-0 animate-fade-in">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              {trade.entry_price !== null && trade.entry_price !== undefined && (
-                <div className="text-sm">
-                  <span className="text-muted-foreground">Entry:</span> {trade.entry_price}
-                </div>
-              )}
-              {trade.exit_price !== null && trade.exit_price !== undefined && (
-                <div className="text-sm">
-                  <span className="text-muted-foreground">Exit:</span> {trade.exit_price}
-                </div>
-              )}
-              {trade.result !== 'BREAK EVEN' && !trade.is_break_even && (
-                <div className="text-sm">
-                  <span className="text-muted-foreground">P/L:</span> {Number(trade.profit_loss) > 0 ? '+' : ''}{trade.profit_loss}
-                </div>
-              )}
-              <div className="text-sm">
-                <span className="text-muted-foreground">Date:</span> {formatDate(trade.created_at)}
+        <div className="px-5 pb-2 animate-fade-in">
+          <div className="grid md:grid-cols-2 gap-6 pt-2 border-t border-border/10">
+            <div className="space-y-3 pt-4">
+              <div className="grid grid-cols-2 gap-4">
+                {trade.entry_price !== null && trade.entry_price !== undefined && (
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Entry</span>
+                    <span className="text-sm font-light">{trade.entry_price}</span>
+                  </div>
+                )}
+                {trade.exit_price !== null && trade.exit_price !== undefined && (
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Exit</span>
+                    <span className="text-sm font-light">{trade.exit_price}</span>
+                  </div>
+                )}
               </div>
-              {trade.notes && (
-                <div className="pt-2">
-                  <span className="text-sm text-muted-foreground">Notes:</span>
-                  <p className="text-sm mt-1 whitespace-pre-wrap">{trade.notes}</p>
+              
+              {trade.result !== 'BREAK EVEN' && !trade.is_break_even && (
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Profit/Loss</span>
+                  <span className={`text-xl font-light tracking-tight ${Number(trade.profit_loss) > 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+                    {Number(trade.profit_loss) > 0 ? '+' : ''}{trade.profit_loss}
+                  </span>
                 </div>
               )}
+              
+              {trade.notes && (
+                <div className="flex flex-col pt-2">
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground mb-1">Notes</span>
+                  <p className="text-sm text-muted-foreground/80 font-light leading-relaxed whitespace-pre-wrap">{trade.notes}</p>
+                </div>
+              )}
+              
+              <div className="flex items-center gap-2 pt-2">
+                 <Badge variant="outline" className="text-[10px] font-medium uppercase tracking-wider border-border/40 text-muted-foreground">
+                   {trade.trade_type}
+                 </Badge>
+                 {trade.strategy && (
+                   <Badge variant="outline" className="text-[10px] font-medium uppercase tracking-wider border-border/40 text-muted-foreground">
+                     {trade.strategy}
+                   </Badge>
+                 )}
+              </div>
             </div>
             
             {trade.screenshot_url && (
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center pt-4 md:pt-0">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <div className="relative w-full h-24 cursor-pointer overflow-hidden rounded-md border hover:opacity-80 transition-opacity">
+                    <div className="relative w-full h-32 cursor-pointer overflow-hidden rounded-xl border border-border/10 hover:opacity-90 transition-opacity bg-background">
                       <img 
                         src={trade.screenshot_url} 
                         alt={`Chart of ${trade.pair}`}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                        <Image className="h-5 w-5 text-white" />
+                      <div className="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                        <div className="bg-background/80 backdrop-blur-sm p-2 rounded-full shadow-sm">
+                          <Image className="h-4 w-4 text-foreground" />
+                        </div>
                       </div>
                     </div>
                   </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {trade.pair} Chart - {formatDate(trade.created_at)}
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div className="overflow-hidden rounded-md">
+                  <DialogContent className="max-w-4xl p-0 overflow-hidden border-none bg-transparent shadow-none">
+                    <div className="relative rounded-xl overflow-hidden shadow-2xl">
                       <img 
                         src={trade.screenshot_url} 
                         alt={`Chart of ${trade.pair}`}
@@ -122,9 +148,9 @@ const TradeCard: React.FC<{ trade: Trade }> = ({ trade }) => {
               </div>
             )}
           </div>
-        </CardContent>
+        </div>
       )}
-    </Card>
+    </div>
   );
 };
 

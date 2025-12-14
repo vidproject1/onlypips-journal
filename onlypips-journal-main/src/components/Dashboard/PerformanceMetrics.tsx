@@ -69,12 +69,12 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({ trades }) => {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
       {metrics.map((metric) => (
-        <div key={metric.label} className="flex flex-col space-y-1">
-          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{metric.label}</span>
-          <span className="text-3xl font-light tracking-tight text-foreground">
+        <div key={metric.label} className="flex flex-col p-6 rounded-3xl bg-background border border-border/10">
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">{metric.label}</span>
+          <span className="text-2xl font-light tracking-tight text-foreground">
             {metric.value}
           </span>
-          <span className="text-xs text-muted-foreground font-light">{metric.description}</span>
+          <span className="text-xs text-muted-foreground font-light mt-1">{metric.description}</span>
         </div>
       ))}
     </div>

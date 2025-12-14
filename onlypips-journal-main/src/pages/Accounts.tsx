@@ -60,21 +60,27 @@ const AccountsPage: React.FC<AccountsPageProps> = ({ userId }) => {
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold tracking-tight">Your Accounts</h1>
-      <p className="text-muted-foreground">
-        Manage, add, and switch between your trading accounts. Each account has its own dashboard and trades.
-      </p>
-      <div>
-        <Button onClick={() => setAddOpen(true)}>Add Account</Button>
-        <AddAccountDialog 
-          open={addOpen} 
-          setOpen={setAddOpen} 
-          userId={userId}
-          onAccountAdded={handleAccountAdded}
-        />
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-light tracking-tight">Accounts</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Manage your trading accounts
+          </p>
+        </div>
+        <Button onClick={() => setAddOpen(true)} className="rounded-full px-6">
+          New Account
+        </Button>
       </div>
+      
+      <AddAccountDialog 
+        open={addOpen} 
+        setOpen={setAddOpen} 
+        userId={userId}
+        onAccountAdded={handleAccountAdded}
+      />
+
       {loading ? (
-        <div className="py-12 text-center">Loading...</div>
+        <div className="py-12 text-center text-muted-foreground font-light">Loading...</div>
       ) : (
         <AccountList 
           accounts={accounts} 

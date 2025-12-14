@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
@@ -59,12 +58,12 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ plan, trades }) => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Growth Progress</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+    <div className="w-full h-full p-4">
+      <div className="mb-6">
+        <h3 className="text-lg font-medium tracking-tight">Growth Progress</h3>
+      </div>
+      <div className="w-full">
+        <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
           <LineChart data={chartData}>
             <XAxis 
               dataKey="date" 
@@ -94,8 +93,8 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ plan, trades }) => {
             />
           </LineChart>
         </ChartContainer>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

@@ -74,19 +74,19 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-background to-black">
-      <div className="mb-8 text-center">
-        <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary mb-4">
-          <TrendingUp className="mr-2 h-4 w-4" />
-          <span className="text-sm font-medium">Track. Analyze. Improve.</span>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
+      <div className="mb-8 text-center animate-fade-in">
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-muted/30 border border-border/10 text-foreground mb-6">
+          <TrendingUp className="mr-2 h-3.5 w-3.5" />
+          <span className="text-xs font-medium tracking-wide uppercase">Track. Analyze. Improve.</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight mb-2">OnlyPips Journal</h1>
-        <p className="text-muted-foreground">The trading journal for serious traders</p>
+        <h1 className="text-4xl font-light tracking-tight mb-3">OnlyPips Journal</h1>
+        <p className="text-muted-foreground font-light text-lg">The trading journal for serious traders</p>
       </div>
       
       <AuthForm onLogin={handleLogin} onRegister={handleRegister} isLoading={isLoading} />
       
-      <p className="mt-8 text-center text-sm text-muted-foreground">
+      <p className="mt-10 text-center text-xs text-muted-foreground font-light tracking-wide">
         By using this service, you agree to our Terms of Service and Privacy Policy.
       </p>
     </div>

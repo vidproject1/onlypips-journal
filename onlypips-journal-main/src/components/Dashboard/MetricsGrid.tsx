@@ -21,7 +21,7 @@ const MetricsGrid: React.FC<MetricsGridProps> = ({ trades }) => {
   const largestLoss = losingTrades.length > 0 ? Math.min(...losingTrades.map(t => Number(t.profit_loss))) : 0;
 
   const MetricItem = ({ label, value, positive }: { label: string, value: string, positive?: boolean }) => (
-    <div className="flex flex-col p-6 rounded-2xl bg-muted/30 border border-border/10">
+    <div className="flex flex-col p-6 rounded-3xl bg-background border border-border/10">
       <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">{label}</span>
       <span className={`text-2xl font-light tracking-tight ${
         positive === true ? 'text-emerald-500' : 

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ShoppingCart, Eye, Check, ExternalLink, Upload } from "lucide-react";
@@ -323,40 +322,38 @@ const MarketplaceDialog: React.FC<MarketplaceDialogProps> = ({ userId, onCheckli
                 const pending = hasPendingPayment(checklist.id);
                 
                 return (
-                  <Card key={checklist.id} className="w-full">
-                    <CardHeader>
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <CardTitle className="text-lg">{checklist.title}</CardTitle>
-                          <p className="text-muted-foreground mt-1">{checklist.description}</p>
-                        </div>
-                        <div className="flex flex-col gap-2 items-end">
-                          {checklist.is_free ? (
-                            <Badge variant="secondary">Free</Badge>
-                          ) : (
-                            <Badge variant="default">R{checklist.price}</Badge>
-                          )}
-                          {purchased && (
-                            <Badge variant="outline" className="gap-1">
-                              <Check className="h-3 w-3" />
-                              Owned
-                            </Badge>
-                          )}
-                          {pending && (
-                            <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-                              Pending Approval
-                            </Badge>
-                          )}
-                        </div>
+                  <div key={checklist.id} className="w-full bg-background rounded-3xl border border-border/10 p-6 shadow-sm">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-medium tracking-tight">{checklist.title}</h3>
+                        <p className="text-muted-foreground mt-1 font-light text-sm">{checklist.description}</p>
                       </div>
-                    </CardHeader>
-                    <CardContent>
+                      <div className="flex flex-col gap-2 items-end">
+                        {checklist.is_free ? (
+                          <Badge variant="secondary" className="rounded-full font-normal">Free</Badge>
+                        ) : (
+                          <Badge variant="default" className="rounded-full font-normal">R{checklist.price}</Badge>
+                        )}
+                        {purchased && (
+                          <Badge variant="outline" className="gap-1 rounded-full font-normal">
+                            <Check className="h-3 w-3" />
+                            Owned
+                          </Badge>
+                        )}
+                        {pending && (
+                          <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 rounded-full font-normal">
+                            Pending Approval
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                    <div>
                       <div className="flex gap-2">
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => showPreview(checklist)}
-                          className="gap-1"
+                          className="gap-1 rounded-full"
                         >
                           <Eye className="h-4 w-4" />
                           Preview
@@ -367,7 +364,7 @@ const MarketplaceDialog: React.FC<MarketplaceDialogProps> = ({ userId, onCheckli
                             variant="outline"
                             size="sm"
                             onClick={() => handleFreeChecklistAdd(checklist)}
-                            className="gap-1"
+                            className="gap-1 rounded-full"
                           >
                             <ExternalLink className="h-4 w-4" />
                             Add to My Strategies
@@ -377,6 +374,7 @@ const MarketplaceDialog: React.FC<MarketplaceDialogProps> = ({ userId, onCheckli
                             variant="outline"
                             size="sm"
                             disabled
+                            className="rounded-full"
                           >
                             Awaiting Approval
                           </Button>
@@ -384,6 +382,7 @@ const MarketplaceDialog: React.FC<MarketplaceDialogProps> = ({ userId, onCheckli
                           <Button
                             size="sm"
                             onClick={() => handleFreeChecklistAdd(checklist)}
+                            className="rounded-full"
                           >
                             Add Free Strategy
                           </Button>
@@ -391,15 +390,15 @@ const MarketplaceDialog: React.FC<MarketplaceDialogProps> = ({ userId, onCheckli
                           <Button
                             size="sm"
                             onClick={() => handlePurchaseClick(checklist)}
-                            className="gap-1"
+                            className="gap-1 rounded-full"
                           >
                             <ShoppingCart className="h-4 w-4" />
                             Purchase for R{checklist.price}
                           </Button>
                         )}
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -454,33 +453,33 @@ const MarketplaceDialog: React.FC<MarketplaceDialogProps> = ({ userId, onCheckli
           
           {selectedChecklist && bankDetails && (
             <div className="space-y-6">
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-3">Step 1: Transfer Details</h4>
-                <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="bg-blue-50 p-6 rounded-3xl border border-blue-100">
+                <h4 className="font-semibold mb-3 text-blue-900">Step 1: Transfer Details</h4>
+                <div className="grid grid-cols-2 gap-4 text-sm text-blue-800">
                   <div>
-                    <strong>Amount:</strong> R{selectedChecklist.price}
+                    <strong className="font-medium text-blue-900">Amount:</strong> R{selectedChecklist.price}
                   </div>
                   <div>
-                    <strong>Cardholder Name:</strong> {bankDetails.cardholder_name}
+                    <strong className="font-medium text-blue-900">Cardholder Name:</strong> {bankDetails.cardholder_name}
                   </div>
                   <div>
-                    <strong>Bank Name:</strong> {bankDetails.bank_name}
+                    <strong className="font-medium text-blue-900">Bank Name:</strong> {bankDetails.bank_name}
                   </div>
                   <div>
-                    <strong>Account Number:</strong> {bankDetails.account_number}
+                    <strong className="font-medium text-blue-900">Account Number:</strong> {bankDetails.account_number}
                   </div>
                   <div>
-                    <strong>Branch Code:</strong> {bankDetails.branch_code}
+                    <strong className="font-medium text-blue-900">Branch Code:</strong> {bankDetails.branch_code}
                   </div>
                   <div>
-                    <strong>Reference:</strong> {userEmail}
+                    <strong className="font-medium text-blue-900">Reference:</strong> {userEmail}
                   </div>
                 </div>
               </div>
 
-              <div className="bg-yellow-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2">Important Instructions:</h4>
-                <ul className="text-sm space-y-1">
+              <div className="bg-yellow-50 p-6 rounded-3xl border border-yellow-100">
+                <h4 className="font-semibold mb-2 text-yellow-900">Important Instructions:</h4>
+                <ul className="text-sm space-y-1 text-yellow-800">
                   <li>• Use your email address ({userEmail}) as the payment reference</li>
                   <li>• Transfer exactly R{selectedChecklist.price}</li>
                   <li>• Upload proof of payment below</li>

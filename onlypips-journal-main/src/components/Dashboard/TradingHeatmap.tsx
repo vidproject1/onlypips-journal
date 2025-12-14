@@ -69,7 +69,7 @@ const TradingHeatmap: React.FC<TradingHeatmapProps> = ({ trades }) => {
         </p>
       </div>
       
-      <div className="p-6 rounded-2xl bg-muted/30 border border-border/10">
+      <div className="p-6 rounded-3xl bg-background border border-border/10">
         <div className="space-y-2">
           {/* Hour labels */}
           <div className="grid grid-cols-25 gap-1 mb-2">

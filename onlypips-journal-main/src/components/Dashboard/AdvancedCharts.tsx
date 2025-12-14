@@ -51,7 +51,7 @@ const AdvancedCharts: React.FC<AdvancedChartsProps> = ({ trades }) => {
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Equity Curve</h3>
         </div>
-        <div className="h-[300px] w-full p-4 rounded-2xl bg-muted/30 border border-border/10">
+        <div className="h-[300px] w-full p-4 rounded-3xl bg-background border border-border/10">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={cumulativePnL}>
               <defs>
@@ -100,7 +100,7 @@ const AdvancedCharts: React.FC<AdvancedChartsProps> = ({ trades }) => {
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Result Distribution</h3>
         </div>
-        <div className="h-[250px] w-full p-4 rounded-2xl bg-muted/30 border border-border/10">
+        <div className="h-[250px] w-full p-4 rounded-3xl bg-background border border-border/10">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={distributionData}>
               <XAxis 
