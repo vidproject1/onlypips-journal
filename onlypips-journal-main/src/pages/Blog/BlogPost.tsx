@@ -1,15 +1,56 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import PublicLayout from '@/components/Layout/PublicLayout';
-import { blogPosts } from '@/data/blogPosts';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, User, ArrowLeft, Share2 } from 'lucide-react';
+import { Calendar, Clock, User, ArrowLeft, Share2, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { Database } from '@/integrations/supabase/types';
+
+type BlogPost = Database['public']['Tables']['blog_posts']['Row'];
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
-  const post = blogPosts.find((p) => p.slug === slug);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (!slug) return;
+      
+      setIsLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .select('*')
+          .eq('slug', slug)
+          .single();
+
+        if (error) {
+          console.error('Error fetching blog post:', error);
+        } else {
+          setPost(data);
+        }
+      } catch (error) {
+        console.error('Unexpected error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [slug]);
+
+  if (isLoading) {
+    return (
+      <PublicLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      </PublicLayout>
+    );
+  }
 
   if (!post) {
     return <Navigate to="/blog" replace />;
@@ -22,7 +63,7 @@ const BlogPost = () => {
         <div className="relative w-full h-[40vh] md:h-[50vh] overflow-hidden">
           <div className="absolute inset-0 bg-black/60 z-10" />
           <img 
-            src={post.image} 
+            src={post.image || '/placeholder.svg'} 
             alt={post.title} 
             className="w-full h-full object-cover"
           />
@@ -44,7 +85,7 @@ const BlogPost = () => {
                 </span>
                 <span className="hidden md:inline">•</span>
                 <span className="flex items-center">
-                  <Clock className="h-4 w-4 mr-2" /> {post.readTime}
+                  <Clock className="h-4 w-4 mr-2" /> {post.read_time}
                 </span>
               </div>
             </div>
