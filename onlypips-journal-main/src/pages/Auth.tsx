@@ -1,17 +1,28 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthForm from '@/components/Auth/AuthForm';
 import { TrendingUp } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface AuthProps {
-  onLogin: (userData: any) => void;
+  onLogin?: (userData: any) => void;
 }
 
 const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if already logged in
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        navigate('/accounts');
+      }
+    });
+  }, [navigate]);
 
   const handleLogin = async (email: string, password: string) => {
     setIsLoading(true);
@@ -24,12 +35,13 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       if (error) throw error;
       
       console.log("Login successful:", data);
-      onLogin(data);
+      if (onLogin) onLogin(data);
       
       toast({
         title: "Login Successful",
         description: "Welcome back to OnlyPips Journal!",
       });
+      navigate('/accounts');
     } catch (error: any) {
       console.error('Login error:', error);
       toast({
@@ -54,12 +66,13 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       if (error) throw error;
       
       console.log("Registration successful:", data);
-      onLogin(data);
+      if (onLogin) onLogin(data);
       
       toast({
         title: "Registration Successful",
         description: "Welcome to OnlyPips Journal! Your account has been created.",
       });
+      navigate('/accounts');
     } catch (error: any) {
       console.error('Registration error:', error);
       toast({
@@ -87,7 +100,13 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       
       <AuthForm onLogin={handleLogin} onRegister={handleRegister} isLoading={isLoading} />
       
-      <p className="mt-10 text-center text-xs text-muted-foreground font-light tracking-wide">
+      <div className="mt-8 text-center">
+         <Link to="/" className="text-sm text-muted-foreground hover:text-primary underline underline-offset-4 transition-colors">
+            Back to Home
+         </Link>
+      </div>
+
+      <p className="mt-4 text-center text-xs text-muted-foreground font-light tracking-wide">
         By using this service, you agree to our Terms of Service and Privacy Policy.
       </p>
     </div>

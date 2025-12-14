@@ -59,7 +59,7 @@ const Index = () => {
   }
 
   if (!user) {
-    return <Auth onLogin={handleLogin} />;
+    return <Navigate to="/login" replace />;
   }
 
   return (
