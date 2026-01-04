@@ -133,6 +133,7 @@ src/
 │   ├── Accounts/       # Account management
 │   ├── Admin/          # Admin functionality
 │   ├── Auth/           # Authentication
+│   ├── Blog/           # Blog & Backtesting components
 │   ├── Checklist/      # Strategy checklists
 │   ├── Dashboard/      # Analytics components
 │   ├── GrowthPath/     # Growth planning

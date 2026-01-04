@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar, Clock, User, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Database } from '@/integrations/supabase/types';
+import BacktestList from '@/components/Blog/BacktestList';
 
 type BlogPost = Database['public']['Tables']['blog_posts']['Row'];
 
@@ -59,6 +60,9 @@ const BlogList = () => {
       </div>
 
       <div className="container max-w-6xl py-8 px-4 md:px-6">
+        {/* Backtested Strategies Section */}
+        <BacktestList />
+
         {/* Category Filter */}
         <div className="flex flex-wrap justify-center gap-2 mb-12">
           {categories.map((category) => (
