@@ -1,5 +1,6 @@
 import React from 'react';
 import NavBar from './NavBar';
+import MigrationBanner from './MigrationBanner';
 import SupportManager from '@/components/Support/SupportManager';
 
 interface MainLayoutProps {
@@ -12,6 +13,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, onLogout, userId }) =
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar onLogout={onLogout} userId={userId} />
+      {userId && <MigrationBanner userId={userId} />}
       <main className="flex-1 container py-6 md:py-8">
         {children}
       </main>

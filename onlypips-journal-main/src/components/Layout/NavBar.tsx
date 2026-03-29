@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, BarChart3, BookOpen, LogOut, ListChecks, Menu, Target, TrendingUpIcon, MoreVertical } from 'lucide-react';
+import { BarChart3, BookOpen, LogOut, ListChecks, Menu, TrendingUpIcon, MoreVertical } from 'lucide-react';
 import NotificationBell from '@/components/Notifications/NotificationBell';
 import SupportButton from '@/components/Support/SupportButton';
+import ExportDataButton from './ExportDataButton';
 import {
   Drawer,
   DrawerClose,
@@ -122,6 +123,14 @@ const NavBar: React.FC<NavBarProps> = ({ onLogout, userId }) => {
                 <NavLink to="/trades" icon={BookOpen} className="p-2">Trades</NavLink>
                 <NavLink to="/growth-path" icon={TrendingUpIcon} className="p-2">Growth Path</NavLink>
                 <NavLink to="/checklist" icon={ListChecks} className="p-2">Checklist</NavLink>
+
+                {userId && (
+                  <ExportDataButton
+                    userId={userId}
+                    mobile
+                    className="w-full justify-start p-2"
+                  />
+                )}
                 
                 {/* Support Button - Mobile */}
                 {userId && (
@@ -147,6 +156,12 @@ const NavBar: React.FC<NavBarProps> = ({ onLogout, userId }) => {
 
           {/* Notification bell and logout for desktop */}
           {userId && <NotificationBell userId={userId} />}
+          {userId && (
+            <ExportDataButton
+              userId={userId}
+              className="hidden md:inline-flex"
+            />
+          )}
           <Button 
             variant="ghost" 
             size="sm" 

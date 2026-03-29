@@ -11,6 +11,7 @@ import { Session } from '@supabase/supabase-js';
 import AdminNotifications from './AdminNotifications';
 import AccountsPage from "./Accounts";
 import PaymentApprovalPage from '@/components/Admin/PaymentApprovalPage';
+import MigrationGuide from './MigrationGuide';
 
 const Index = () => {
   const [user, setUser] = useState<any>(null);
@@ -74,6 +75,7 @@ const Index = () => {
         <Route path="/trades" element={<Trades userId={user.id} />} />
         <Route path="/growth-path" element={<GrowthPath userId={user.id} />} />
         <Route path="/checklist" element={<ChecklistPage userId={user.id} />} />
+        <Route path="/migration-guide" element={<MigrationGuide />} />
         <Route path="/admin" element={<AdminNotifications />} />
         <Route path="/admin/payments" element={
           <div className="p-6">
